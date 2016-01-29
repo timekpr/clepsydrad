@@ -13,6 +13,7 @@ set(CLEPSYDRAD_VERSION_STRING "${CLEPSYDRAD_VERSION_MAJOR}.${CLEPSYDRAD_VERSION_
 
 SET(SRC_LIST
     main.c
+    linked_list.c
     config.h
     readconf.c
     pamcheck.c
