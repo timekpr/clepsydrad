@@ -3,10 +3,8 @@
 
 struct accounts_struct* create_list(char *p)
 {
-    printf("\n creating list with headnode as [%s]\n",p);
     struct accounts_struct *ptr = (struct accounts_struct*)calloc(0,sizeof(struct accounts_struct));
     if(NULL == ptr) {
-        printf("\n Node creation failed \n");
         return NULL;
     }
     ptr->next = NULL;
@@ -21,12 +19,6 @@ struct accounts_struct* add_to_list(char *u, bool add_to_end)
     }
 
     add_to_end = true;
-
-    if(add_to_end)
-        printf("\n Adding node to end of list with value [%s]\n",u);
-    else
-        printf("\n Adding node to beginning of list with value [%s]\n",u);
-
     struct accounts_struct *ptr = (struct accounts_struct*)calloc(0,sizeof(struct accounts_struct));
     if(NULL == ptr) {
         return NULL;
@@ -45,14 +37,36 @@ struct accounts_struct* add_to_list(char *u, bool add_to_end)
     return ptr;
 }
 
+int list_count ()
+{
+    struct accounts_struct *ptr = head;
+    int count = 0;
+    while(ptr != NULL) {
+        count++;
+        ptr = ptr->next;
+    }
+    return count;
+}
+
+bool found_user_in_list (const char *u)
+{
+    struct accounts_struct *ptr = head;
+    bool found = false;
+    while(ptr != NULL) {
+        if(ptr->username && strcmp(ptr->username,u)==0)   {
+            found = true;
+            break;
+        }
+        ptr = ptr->next;
+    }
+   return found;
+}
+
 struct accounts_struct* search_in_list(char *u, struct accounts_struct **prev)
 {
     struct accounts_struct *ptr = head;
     struct accounts_struct *tmp = NULL;
     bool found = false;
-
-    printf("\n Searching the list for value [%s] \n",u);
-
     while(ptr != NULL) {
         if(strcmp(ptr->username,u)==0)   {
             found = true;
@@ -74,27 +88,21 @@ struct accounts_struct* search_in_list(char *u, struct accounts_struct **prev)
     }
 }
 
-int delete_all (void)
+void delete_all (void)
 {
-    int cnt = 0;
     struct accounts_struct *acc = head;
     while (acc != NULL)  {
         struct accounts_struct *temp = acc;
         acc = acc->next;
         free(temp->username);
         free(temp);
-        cnt++;
     }
-    return cnt;
 }
 
 int delete_from_list(char *u)
 {
     struct accounts_struct *prev = NULL;
     struct accounts_struct *del = NULL;
-
-    printf("\n Deleting value [%s] from list\n",u);
-
     del = search_in_list(u,&prev);
     if(del == NULL) {
         return -1;

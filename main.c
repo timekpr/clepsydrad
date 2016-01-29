@@ -65,7 +65,6 @@ int make_daemon ()
     fp = fopen ("/tmp/clepsydrad.log", "w+");
 
     char *p = NULL;
-
     int countToDie = 0;
     while (1)
     {
@@ -84,10 +83,9 @@ int make_daemon ()
        }
        // Implement and call some function that does core work for this daemon.
     }
-    print_list (fp);
     fflush(fp);
-    int count = delete_all (); // delete list
-    fprintf(fp, "count of deleted items : [%d] \n", count);
+    fprintf(fp, "list contains [%d] count of items...\n", list_count());
+    delete_all (); // delete list
     fprintf(fp, "Quit clepsydrad, bye !...\n");
     fclose(fp);
     return (0);

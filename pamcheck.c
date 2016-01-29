@@ -31,8 +31,10 @@ int getLoggedusers (FILE *lfp)
     while (fread((char *)&usr, sizeof(usr), 1, ufp) == 1) {
         if (*usr.ut_name && *usr.ut_line && *usr.ut_line != '~') {
             if (usr.ut_type == USER_PROCESS) {
-                fprintf(lfp, " utmp ... %s\n", usr.ut_user );
-                add_to_list (usr.ut_user);
+                if (!found_user_in_list(usr.ut_user))   {
+                    fprintf(lfp, " utmp, added user %s\n", usr.ut_user );
+                    add_to_list (usr.ut_user);
+                }
                 numberOfUsers++;
             }
         }
@@ -59,7 +61,6 @@ int checkPamUser ()
     pam_handle_t *pamh=NULL;
     int retval;
     const char *user="nobody";
-
     retval = pam_start("check_user", user, &conv, &pamh);
     if (retval != PAM_SUCCESS)  {
         return -1;
