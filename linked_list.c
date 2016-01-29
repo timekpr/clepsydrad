@@ -7,6 +7,7 @@ struct accounts_struct* create_list(char *p)
     if(NULL == ptr) {
         return NULL;
     }
+    ptr->username = strdup (p);
     ptr->next = NULL;
     head = curr = ptr;
     return ptr;
