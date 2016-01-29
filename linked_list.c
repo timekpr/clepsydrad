@@ -1,16 +1,15 @@
+#include <string.h>
 #include "config.h"
 
 struct accounts_struct* create_list(char *p)
 {
-    printf("\n creating list with headnode as [%d]\n",val);
-    struct accounts_struct *ptr = (struct accounts_struct*)malloc(sizeof(struct accounts_struct));
+    printf("\n creating list with headnode as [%s]\n",p);
+    struct accounts_struct *ptr = (struct accounts_struct*)calloc(0,sizeof(struct accounts_struct));
     if(NULL == ptr) {
         printf("\n Node creation failed \n");
         return NULL;
     }
-    // ptr->val = val;
     ptr->next = NULL;
-
     head = curr = ptr;
     return ptr;
 }
@@ -18,19 +17,21 @@ struct accounts_struct* create_list(char *p)
 struct accounts_struct* add_to_list(char *u, bool add_to_end)
 {
     if(NULL == head) {
-        return (create_list(val));
+        return (create_list(u));
     }
 
-    if(add_to_end)
-        printf("\n Adding node to end of list with value [%d]\n",val);
-    else
-        printf("\n Adding node to beginning of list with value [%d]\n",val);
+    add_to_end = true;
 
-    struct accounts_struct *ptr = (struct accounts_struct*)malloc(sizeof(struct accounts_struct));
+    if(add_to_end)
+        printf("\n Adding node to end of list with value [%s]\n",u);
+    else
+        printf("\n Adding node to beginning of list with value [%s]\n",u);
+
+    struct accounts_struct *ptr = (struct accounts_struct*)calloc(0,sizeof(struct accounts_struct));
     if(NULL == ptr) {
         return NULL;
     }
-    ptr->val = val;
+    ptr->username = strdup (u);
     ptr->next = NULL;
 
     if(add_to_end) {
@@ -73,6 +74,20 @@ struct accounts_struct* search_in_list(char *u, struct accounts_struct **prev)
     }
 }
 
+int delete_all (void)
+{
+    int cnt = 0;
+    struct accounts_struct *acc = head;
+    while (acc != NULL)  {
+        struct accounts_struct *temp = acc;
+        acc = acc->next;
+        free(temp->username);
+        free(temp);
+        cnt++;
+    }
+    return cnt;
+}
+
 int delete_from_list(char *u)
 {
     struct accounts_struct *prev = NULL;
@@ -95,22 +110,22 @@ int delete_from_list(char *u)
             head = del->next;
         }
     }
-
+    // free, let them free !
+    free(del->username);
     free(del);
     del = NULL;
     return 0;
 }
 
-void print_list(void)
+void print_list(FILE *lfp)
 {
     struct accounts_struct *ptr = head;
-
-    printf("\n -------Printing list Start------- \n");
+    fprintf(lfp, "\n -------Printing list Start------- \n");
+    int cnt = 0;
     while(ptr != NULL) {
-        printf("\n [%d] \n",ptr->val);
+        fprintf(lfp, "\n [%d] [%s] \n", cnt++, ptr->username);
         ptr = ptr->next;
     }
-    printf("\n -------Printing list End------- \n");
-
+    fprintf(lfp, "\n -------Printing list End------- \n");
     return;
 }

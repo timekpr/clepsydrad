@@ -84,8 +84,11 @@ int make_daemon ()
        }
        // Implement and call some function that does core work for this daemon.
     }
-    fprintf(fp, "Quit clepsydrad, bye !...\n");
+    print_list (fp);
     fflush(fp);
+    int count = delete_all (); // delete list
+    fprintf(fp, "count of deleted items : [%d] \n", count);
+    fprintf(fp, "Quit clepsydrad, bye !...\n");
     fclose(fp);
     return (0);
 

@@ -32,6 +32,7 @@ int getLoggedusers (FILE *lfp)
         if (*usr.ut_name && *usr.ut_line && *usr.ut_line != '~') {
             if (usr.ut_type == USER_PROCESS) {
                 fprintf(lfp, " utmp ... %s\n", usr.ut_user );
+                add_to_list (usr.ut_user);
                 numberOfUsers++;
             }
         }
