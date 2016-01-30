@@ -65,5 +65,5 @@ int checkPamUser ()
     if (retval != PAM_SUCCESS)  {
         return -1;
     }
-    return 0;
+    return retval;
 }

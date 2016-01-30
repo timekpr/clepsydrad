@@ -82,7 +82,7 @@ struct accounts_struct* search_in_list(char *u, struct accounts_struct **prev)
     struct accounts_struct *tmp = NULL;
     bool found = false;
     while(ptr != NULL) {
-        if(strcmp(ptr->username,u)==0)   {
+        if(ptr->username && strcmp(ptr->username,u)==0)   {
             found = true;
             break;
         }
