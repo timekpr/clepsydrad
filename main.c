@@ -18,8 +18,6 @@
 #include <sys/stat.h>
 #include <string.h>
 
-// aux_source_directory(. SRC_LIST)
-
 // read conf file
 // read log rotate file
 
@@ -30,11 +28,10 @@ int readConfFile (FILE *fp);
 int make_daemon ()
 {
     FILE *fp= NULL;
+    FILE *fp_pid= NULL;
     pid_t process_id = 0;
     pid_t sid = 0;
-    // Create child process
     process_id = fork();
-    // Indication of fork() failure
     if (process_id < 0) {
         printf("fork failed!\n");
         // Return failure in exit status
@@ -42,21 +39,27 @@ int make_daemon ()
     }
     // PARENT PROCESS. Need to kill it.
     if (process_id > 0) {
-        printf("process_id of child process %d \n", process_id);
+
+        // Should moved to better place
+        fp_pid = fopen ("/tmp/clepsydrad.pid", "w+");
+        fprintf (fp_pid, "%d\n", process_id);
+        fflush(fp_pid);
+        fclose (fp_pid);
+
+        printf("process_id of daemon process %d \n", process_id);
         // return success in exit status
         exit(0);
     }
-    //unmask the file mode
+
     umask(0);
-    //set new session
     sid = setsid();
     if(sid < 0)  {
-        // Return failure
         exit(1);
     }
 
     // Change the current working directory to root.
     chdir("/tmp");
+
     // Close stdin. stdout and stderr
     close(STDIN_FILENO);
     close(STDOUT_FILENO);
@@ -88,6 +91,9 @@ int make_daemon ()
     delete_all (); // delete list
     fprintf(fp, "Quit clepsydrad, bye !...\n");
     fclose(fp);
+
+    // remove pid file
+    remove ("/tmp/clepsydrad.pid");
     return (0);
 
 }
