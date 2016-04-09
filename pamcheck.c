@@ -61,7 +61,6 @@ int checkPamUser (const char *username)
 {
     pam_handle_t *pamh=NULL;
     int retval;
-    // const char *user="nobody";
     retval = pam_start("check_user", username, &conv, &pamh);
     if (retval != PAM_SUCCESS)  {
         return -1;
