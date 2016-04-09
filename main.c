@@ -89,6 +89,7 @@ int make_daemon ()
     }
     fflush(fp);
     fprintf(fp, " First user in list is .. [%s] \n", getUserName (0));
+    fprintf(fp, " pam check status  .. [%d] \n", checkPamUser(getUserName (0)));
     fprintf(fp, "list contains [%d] count of items...\n", list_count());
     delete_all (); // delete list
     fprintf(fp, "Quit clepsydrad, bye !...\n");
