@@ -76,6 +76,20 @@ bool found_user_in_list (const char *u)
    return found;
 }
 
+char * getUserName (int pos)
+{
+    struct accounts_struct *ptr = head;
+    int counter = 0;
+    while(ptr != NULL) {
+        if (counter == pos)  {
+            return ptr->username;
+        } else {
+            ptr = ptr->next;
+        }
+    }
+    return NULL;
+}
+
 struct accounts_struct* search_in_list(char *u, struct accounts_struct **prev)
 {
     struct accounts_struct *ptr = head;

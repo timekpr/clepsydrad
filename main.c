@@ -20,6 +20,7 @@
 
 // read conf file
 // read log rotate file
+#include "pamcheck.h"
 
 int readConfFile (FILE *fp);
 
@@ -78,8 +79,8 @@ int make_daemon ()
        if (countToDie > 15 )  {
            break;
        } else {
-           int pm = checkPamUser ();
-           fprintf(fp, " pam user check ... %d\n",  pm);
+           // int pm = checkPamUser ();
+           //fprintf(fp, " pam user check ... %d\n",  pm);
            int loggedC = getLoggedusers (fp);
            fprintf(fp, " pam cnt of logged users... %d\n",  loggedC);
            fflush(fp);
@@ -87,6 +88,7 @@ int make_daemon ()
        // Implement and call some function that does core work for this daemon.
     }
     fflush(fp);
+    fprintf(fp, " First user in list is .. [%s] \n", getUserName (0));
     fprintf(fp, "list contains [%d] count of items...\n", list_count());
     delete_all (); // delete list
     fprintf(fp, "Quit clepsydrad, bye !...\n");

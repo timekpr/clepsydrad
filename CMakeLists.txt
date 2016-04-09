@@ -30,6 +30,7 @@ SET(SRC_LIST
     config.h
     readconf.c
     pamcheck.c
+    pamcheck.h
     c_socket.h
 )
 

@@ -18,7 +18,8 @@
 #include <security/pam_misc.h>
 #include <stdio.h>
 
-FILE *utmpFile(char *name);
+#include "pamcheck.h"
+
 #define NAME_WIDTH  8
 
 int getLoggedusers (FILE *lfp)
@@ -56,12 +57,12 @@ static struct pam_conv conv = {
     NULL
 };
 
-int checkPamUser ()
+int checkPamUser (const char *username)
 {
     pam_handle_t *pamh=NULL;
     int retval;
-    const char *user="nobody";
-    retval = pam_start("check_user", user, &conv, &pamh);
+    // const char *user="nobody";
+    retval = pam_start("check_user", username, &conv, &pamh);
     if (retval != PAM_SUCCESS)  {
         return -1;
     }

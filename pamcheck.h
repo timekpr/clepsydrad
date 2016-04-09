@@ -11,22 +11,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __CONFIG_H__
-#define __CONFIG_H__
+#ifndef __PAMCHECK_H__
+#define __PAMCHECK_H__
 
-#include    <stdio.h>
-#include    <stdlib.h>
-#include    <stdbool.h>
-
-struct accounts_struct
-{
-    char *username;
-    struct accounts_struct *next;
-};
-
-struct accounts_struct *head = NULL;
-struct accounts_struct *curr = NULL;
-
-char * getUserName (int);
+FILE *utmpFile(char *name);
+int checkPamUser(const char *);
 
 #endif
